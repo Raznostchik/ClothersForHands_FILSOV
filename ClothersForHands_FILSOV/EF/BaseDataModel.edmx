@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FilsovWorldSkillsDemoModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="idHistory" />
+          </Key>
+          <Property Name="idHistory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMaterial" Type="int" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OldCount" Type="int" />
+          <Property Name="NewCount" Type="int" Nullable="false" />
+          <Property Name="DateUpdate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="idMaterials" />
+          </Key>
+          <Property Name="idMaterials" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idTypeMaterials" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="200" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="QuantityOnStorage" Type="int" Nullable="false" />
+          <Property Name="MinimumQuantity" Type="int" Nullable="false" />
+          <Property Name="QuntityInPack" Type="int" Nullable="false" />
+          <Property Name="idUnit" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialsSupliers">
+          <Key>
+            <PropertyRef Name="idMaterialSuplier" />
+          </Key>
+          <Property Name="idMaterialSuplier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMaterial" Type="int" Nullable="false" />
+          <Property Name="idSupliers" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supliers">
+          <Key>
+            <PropertyRef Name="idSuplier" />
+          </Key>
+          <Property Name="idSuplier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameSuplier" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idTypeSuplier" Type="int" Nullable="false" />
+          <Property Name="INN" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RatingOfQuality" Type="int" Nullable="false" />
+          <Property Name="DateStart" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeMaterials">
+          <Key>
+            <PropertyRef Name="idMaterials" />
+          </Key>
+          <Property Name="idMaterials" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeMaterial" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeSupliers">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameSupliers" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameUnit" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Materials_TypeMaterials">
+          <End Role="TypeMaterials" Type="Self.TypeMaterials" Multiplicity="1" />
+          <End Role="Materials" Type="Self.Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeMaterials">
+              <PropertyRef Name="idMaterials" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="idTypeMaterials" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materials_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
+          <End Role="Materials" Type="Self.Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="idUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialsSupliers_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1" />
+          <End Role="MaterialsSupliers" Type="Self.MaterialsSupliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="idMaterials" />
+            </Principal>
+            <Dependent Role="MaterialsSupliers">
+              <PropertyRef Name="idMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialsSupliers_Supliers">
+          <End Role="Supliers" Type="Self.Supliers" Multiplicity="1" />
+          <End Role="MaterialsSupliers" Type="Self.MaterialsSupliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supliers">
+              <PropertyRef Name="idSuplier" />
+            </Principal>
+            <Dependent Role="MaterialsSupliers">
+              <PropertyRef Name="idSupliers" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supliers_TypeSupliers">
+          <End Role="TypeSupliers" Type="Self.TypeSupliers" Multiplicity="1" />
+          <End Role="Supliers" Type="Self.Supliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeSupliers">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Supliers">
+              <PropertyRef Name="idTypeSuplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище FilsovWorldSkillsDemoModelContainer">
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialsSupliers" EntityType="Self.MaterialsSupliers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supliers" EntityType="Self.Supliers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeMaterials" EntityType="Self.TypeMaterials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeSupliers" EntityType="Self.TypeSupliers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Materials_TypeMaterials" Association="Self.FK_Materials_TypeMaterials">
+            <End Role="TypeMaterials" EntitySet="TypeMaterials" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materials_Unit" Association="Self.FK_Materials_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialsSupliers_Materials" Association="Self.FK_MaterialsSupliers_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="MaterialsSupliers" EntitySet="MaterialsSupliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialsSupliers_Supliers" Association="Self.FK_MaterialsSupliers_Supliers">
+            <End Role="Supliers" EntitySet="Supliers" />
+            <End Role="MaterialsSupliers" EntitySet="MaterialsSupliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supliers_TypeSupliers" Association="Self.FK_Supliers_TypeSupliers">
+            <End Role="TypeSupliers" EntitySet="TypeSupliers" />
+            <End Role="Supliers" EntitySet="Supliers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FilsovWorldSkillsDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="idMaterials" />
+          </Key>
+          <Property Name="idMaterials" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idTypeMaterials" Type="Int32" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="QuantityOnStorage" Type="Int32" Nullable="false" />
+          <Property Name="MinimumQuantity" Type="Int32" Nullable="false" />
+          <Property Name="QuntityInPack" Type="Int32" Nullable="false" />
+          <Property Name="idUnit" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TypeMaterials" Relationship="FilsovWorldSkillsDemoModel.FK_Materials_TypeMaterials" FromRole="Materials" ToRole="TypeMaterials" />
+          <NavigationProperty Name="Unit" Relationship="FilsovWorldSkillsDemoModel.FK_Materials_Unit" FromRole="Materials" ToRole="Unit" />
+          <NavigationProperty Name="MaterialsSupliers" Relationship="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Materials" FromRole="Materials" ToRole="MaterialsSupliers" />
+        </EntityType>
+        <EntityType Name="MaterialsSupliers">
+          <Key>
+            <PropertyRef Name="idMaterialSuplier" />
+          </Key>
+          <Property Name="idMaterialSuplier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMaterial" Type="Int32" Nullable="false" />
+          <Property Name="idSupliers" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Materials" FromRole="MaterialsSupliers" ToRole="Materials" />
+          <NavigationProperty Name="Supliers" Relationship="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Supliers" FromRole="MaterialsSupliers" ToRole="Supliers" />
+        </EntityType>
+        <EntityType Name="Supliers">
+          <Key>
+            <PropertyRef Name="idSuplier" />
+          </Key>
+          <Property Name="idSuplier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameSuplier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idTypeSuplier" Type="Int32" Nullable="false" />
+          <Property Name="INN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RatingOfQuality" Type="Int32" Nullable="false" />
+          <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="MaterialsSupliers" Relationship="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Supliers" FromRole="Supliers" ToRole="MaterialsSupliers" />
+          <NavigationProperty Name="TypeSupliers" Relationship="FilsovWorldSkillsDemoModel.FK_Supliers_TypeSupliers" FromRole="Supliers" ToRole="TypeSupliers" />
+        </EntityType>
+        <EntityType Name="TypeMaterials">
+          <Key>
+            <PropertyRef Name="idMaterials" />
+          </Key>
+          <Property Name="idMaterials" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeMaterial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="FilsovWorldSkillsDemoModel.FK_Materials_TypeMaterials" FromRole="TypeMaterials" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="TypeSupliers">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameSupliers" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Supliers" Relationship="FilsovWorldSkillsDemoModel.FK_Supliers_TypeSupliers" FromRole="TypeSupliers" ToRole="Supliers" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="FilsovWorldSkillsDemoModel.FK_Materials_Unit" FromRole="Unit" ToRole="Materials" />
+        </EntityType>
+        <EntityContainer Name="FilsovWorldSkillsDemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Materials" EntityType="Self.Materials" />
+          <EntitySet Name="MaterialsSupliers" EntityType="Self.MaterialsSupliers" />
+          <EntitySet Name="Supliers" EntityType="Self.Supliers" />
+          <EntitySet Name="TypeMaterials" EntityType="Self.TypeMaterials" />
+          <EntitySet Name="TypeSupliers" EntityType="Self.TypeSupliers" />
+          <EntitySet Name="Unit" EntityType="Self.Unit" />
+          <AssociationSet Name="FK_Materials_TypeMaterials" Association="FilsovWorldSkillsDemoModel.FK_Materials_TypeMaterials">
+            <End Role="TypeMaterials" EntitySet="TypeMaterials" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materials_Unit" Association="FilsovWorldSkillsDemoModel.FK_Materials_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialsSupliers_Materials" Association="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="MaterialsSupliers" EntitySet="MaterialsSupliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialsSupliers_Supliers" Association="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Supliers">
+            <End Role="Supliers" EntitySet="Supliers" />
+            <End Role="MaterialsSupliers" EntitySet="MaterialsSupliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supliers_TypeSupliers" Association="FilsovWorldSkillsDemoModel.FK_Supliers_TypeSupliers">
+            <End Role="TypeSupliers" EntitySet="TypeSupliers" />
+            <End Role="Supliers" EntitySet="Supliers" />
+          </AssociationSet>
+          <EntitySet Name="History" EntityType="FilsovWorldSkillsDemoModel.History" />
+          <EntitySet Name="sysdiagrams" EntityType="FilsovWorldSkillsDemoModel.sysdiagrams" />
+        </EntityContainer>
+        <Association Name="FK_Materials_TypeMaterials">
+          <End Type="FilsovWorldSkillsDemoModel.TypeMaterials" Role="TypeMaterials" Multiplicity="1" />
+          <End Type="FilsovWorldSkillsDemoModel.Materials" Role="Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeMaterials">
+              <PropertyRef Name="idMaterials" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="idTypeMaterials" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materials_Unit">
+          <End Type="FilsovWorldSkillsDemoModel.Unit" Role="Unit" Multiplicity="1" />
+          <End Type="FilsovWorldSkillsDemoModel.Materials" Role="Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="idUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialsSupliers_Materials">
+          <End Type="FilsovWorldSkillsDemoModel.Materials" Role="Materials" Multiplicity="1" />
+          <End Type="FilsovWorldSkillsDemoModel.MaterialsSupliers" Role="MaterialsSupliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="idMaterials" />
+            </Principal>
+            <Dependent Role="MaterialsSupliers">
+              <PropertyRef Name="idMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialsSupliers_Supliers">
+          <End Type="FilsovWorldSkillsDemoModel.Supliers" Role="Supliers" Multiplicity="1" />
+          <End Type="FilsovWorldSkillsDemoModel.MaterialsSupliers" Role="MaterialsSupliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supliers">
+              <PropertyRef Name="idSuplier" />
+            </Principal>
+            <Dependent Role="MaterialsSupliers">
+              <PropertyRef Name="idSupliers" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supliers_TypeSupliers">
+          <End Type="FilsovWorldSkillsDemoModel.TypeSupliers" Role="TypeSupliers" Multiplicity="1" />
+          <End Type="FilsovWorldSkillsDemoModel.Supliers" Role="Supliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeSupliers">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Supliers">
+              <PropertyRef Name="idTypeSuplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="idHistory" />
+          </Key>
+          <Property Name="idHistory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMaterial" Type="Int32" Nullable="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OldCount" Type="Int32" />
+          <Property Name="NewCount" Type="Int32" Nullable="false" />
+          <Property Name="DateUpdate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FilsovWorldSkillsDemoModelContainer" CdmEntityContainer="FilsovWorldSkillsDemoEntities">
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.Materials">
+              <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="idMaterials" ColumnName="idMaterials" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="idTypeMaterials" ColumnName="idTypeMaterials" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="QuantityOnStorage" ColumnName="QuantityOnStorage" />
+                <ScalarProperty Name="MinimumQuantity" ColumnName="MinimumQuantity" />
+                <ScalarProperty Name="QuntityInPack" ColumnName="QuntityInPack" />
+                <ScalarProperty Name="idUnit" ColumnName="idUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialsSupliers">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.MaterialsSupliers">
+              <MappingFragment StoreEntitySet="MaterialsSupliers">
+                <ScalarProperty Name="idMaterialSuplier" ColumnName="idMaterialSuplier" />
+                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
+                <ScalarProperty Name="idSupliers" ColumnName="idSupliers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supliers">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.Supliers">
+              <MappingFragment StoreEntitySet="Supliers">
+                <ScalarProperty Name="idSuplier" ColumnName="idSuplier" />
+                <ScalarProperty Name="NameSuplier" ColumnName="NameSuplier" />
+                <ScalarProperty Name="idTypeSuplier" ColumnName="idTypeSuplier" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="RatingOfQuality" ColumnName="RatingOfQuality" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeMaterials">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.TypeMaterials">
+              <MappingFragment StoreEntitySet="TypeMaterials">
+                <ScalarProperty Name="idMaterials" ColumnName="idMaterials" />
+                <ScalarProperty Name="TypeMaterial" ColumnName="TypeMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeSupliers">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.TypeSupliers">
+              <MappingFragment StoreEntitySet="TypeSupliers">
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="NameSupliers" ColumnName="NameSupliers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unit">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="NameUnit" ColumnName="NameUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
+                <ScalarProperty Name="OldCount" ColumnName="OldCount" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
+                <ScalarProperty Name="idHistory" ColumnName="idHistory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FilsovWorldSkillsDemoModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="34c760579ad14f4eb7e8f0a8c6f22b95" Name="Diagram1">
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.Materials" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.MaterialsSupliers" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.Supliers" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.TypeMaterials" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.TypeSupliers" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.Unit" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="FilsovWorldSkillsDemoModel.FK_Materials_TypeMaterials" />
+        <AssociationConnector Association="FilsovWorldSkillsDemoModel.FK_Materials_Unit" />
+        <AssociationConnector Association="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Materials" />
+        <AssociationConnector Association="FilsovWorldSkillsDemoModel.FK_MaterialsSupliers_Supliers" />
+        <AssociationConnector Association="FilsovWorldSkillsDemoModel.FK_Supliers_TypeSupliers" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.History" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="FilsovWorldSkillsDemoModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
